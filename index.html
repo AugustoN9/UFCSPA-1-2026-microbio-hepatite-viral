@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: O Malware do Fígado</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        #quiz-container { background-color: #161b22; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 90%; max-width: 500px; text-align: center; border: 1px solid #30363d; }
+        h1 { color: #58a6ff; font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .question { font-size: 1.1rem; margin-bottom: 1rem; text-align: left; }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        button { background-color: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 12px; border-radius: 6px; cursor: pointer; transition: 0.3s; text-align: left; font-size: 1rem; }
+        button:hover { background-color: #30363d; border-color: #8b949e; }
+        .correct { background-color: #238636 !important; color: white; }
+        .wrong { background-color: #da3633 !important; color: white; }
+        #score-container { display: none; }
+        #next-btn { margin-top: 1.5rem; background-color: #238636; border: none; padding: 10px 20px; display: none; text-align: center; width: 100%; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <div id="quiz-content">
+        <h1 id="title">Hepatites: O Malware do Fígado</h1>
+        <div id="question" class="question">Carregando pergunta...</div>
+        <div id="options" class="options"></div>
+        <button id="next-btn">Próxima Pergunta</button>
+    </div>
+    <div id="score-container">
+        <h1>Resultado Final</h1>
+        <p id="score-text"></p>
+        <button onclick="location.reload()" style="text-align: center; width: 100%;">Tentar Novamente</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            q: "Qual vírus é o único da lista cujo material genético é composto por DNA?",
+            a: ["Hepatite A", "Hepatite B", "Hepatite C", "Hepatite E"],
+            correct: 1
+        },
+        {
+            q: "O que caracteriza o fenômeno de 'Quasespécies' na Hepatite C?",
+            a: ["Replicação via DNA", "Dependência do vírus B", "Alta taxa de mutação do RNA", "Transmissão zoonótica"],
+            correct: 2
+        },
+        {
+            q: "O vírus da Hepatite D é considerado defectivo porque:",
+            a: ["Não possui RNA", "Depende do envelope (HBsAg) do vírus B", "Só infecta gestantes", "É autolimitado"],
+            correct: 1
+        },
+        {
+            q: "Na patogênese, o dano principal ao fígado ocorre devido a:",
+            a: ["Ação direta do vírus", "Resposta imune (Linfócitos T)", "Falta de microbiota", "Medicamentos"],
+            correct: 1
+        },
+        {
+            q: "Qual o principal 'arquivo de backup' do vírus B no núcleo celular?",
+            a: ["RNA mensageiro", "cccDNA", "Carga viral HCV", "Proteína VP1"],
+            correct: 1
+        }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const nextBtn = document.getElementById('next-btn');
+    const quizContent = document.getElementById('quiz-content');
+    const scoreContainer = document.getElementById('score-container');
+    const scoreText = document.getElementById('score-text');
+
+    function loadQuestion() {
+        const data = quizData[currentQ];
+        questionEl.innerText = data.q;
+        optionsEl.innerHTML = '';
+        nextBtn.style.display = 'none';
+        
+        data.a.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(index, btn);
+            optionsEl.appendChild(btn);
+        });
+    }
+
+    function selectOption(index, btn) {
+        const correct = quizData[currentQ].correct;
+        if (index === correct) {
+            btn.classList.add('correct');
+            score++;
+        } else {
+            btn.classList.add('wrong');
+            optionsEl.children[correct].classList.add('correct');
+        }
+        Array.from(optionsEl.children).forEach(b => b.disabled = true);
+        nextBtn.style.display = 'block';
+    }
+
+    nextBtn.onclick = () => {
+        currentQ++;
+        if (currentQ < quizData.length) {
+            loadQuestion();
+        } else {
+            quizContent.style.display = 'none';
+            scoreContainer.style.display = 'block';
+            scoreText.innerText = `Você acertou ${score} de ${quizData.length} perguntas!`;
+        }
+    };
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
