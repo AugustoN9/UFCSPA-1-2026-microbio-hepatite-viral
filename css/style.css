@@ -1,0 +1,153 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 10px; /* Margem de segurança para mobile */
+  box-sizing: border-box;
+  background-image:
+    linear-gradient(rgba(13, 17, 23, 0.15), rgba(13, 17, 23, 0.10)),
+    url("../images/fundo.png"); /* caminho local */ 
+
+  background-repeat: no-repeat; /* evita repetição */
+
+  min-height: 100vh; /* garante altura mínima da tela */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #c9d1d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  
+}
+
+#quiz-container {
+  background-color: rgba(22, 27, 34, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  max-width: 450px; /* Limite para não esticar demais no desktop */
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  width: 180px;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto 10px auto; /* centraliza */
+}
+
+h1 {
+  color: #58a6ff;
+  font-size: 1.4rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.2;
+}
+
+.question {
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Botões maiores para facilitar o toque no celular */
+button {
+  background-color: #21262d;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  padding: 16px; /* Área de toque aumentada */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: left;
+  font-size: 0.95rem;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent; /* Remove brilho azul ao tocar no mobile */
+}
+
+button:hover:not(:disabled) {
+  background-color: #30363d;
+  border-color: #8b949e;
+}
+
+.correct {
+  background-color: #ffff00 !important;
+  border-color: #ffff00 !important;
+  color: black !important;
+  font-weight: bold;
+}
+.wrong {
+  background-color: #da3633 !important;
+  border-color: #f85149 !important;
+  color: white !important;
+}
+
+#next-btn {
+  margin-top: 1.5rem;
+  background-color: #58a6ff;
+  color: #0d1117;
+  border: none;
+  padding: 15px;
+  display: none;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.feedback-text {
+  margin: 15px 0;
+  font-weight: bold;
+  font-size: 1.1rem;
+  min-height: 1.2em;
+}
+
+.footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  margin-left: -2rem;
+  font-size: 0.85rem;
+  color: #8b949e;
+  letter-spacing: 0.5px;
+  z-index: 10;
+}
+
+.footer span {
+  color: #58a6ff;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.footer span:hover {
+  color: #79c0ff;
+  text-shadow: 0 0 8px rgba(88, 166, 255, 0.6);
+}
+
+/* Media Query para telas muito pequenas */
+@media (max-width: 360px) {
+  h1 {
+    font-size: 1.2rem;
+  }
+  .question {
+    font-size: 0.95rem;
+  }
+  button {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+}

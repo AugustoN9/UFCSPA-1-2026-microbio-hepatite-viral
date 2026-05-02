@@ -1,136 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz: O Malware do Fígado</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1f6ce0; color: #c9d1d9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        #quiz-container { background-color: #161b22; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); width: 90%; max-width: 500px; text-align: center; border: 1px solid #30363d; }
-        h1 { color: #58a6ff; font-size: 1.5rem; margin-bottom: 1.5rem; }
-        .question { font-size: 1.1rem; margin-bottom: 1.5rem; text-align: left; line-height: 1.4; }
-        .options { display: flex; flex-direction: column; gap: 12px; }
-        button { background-color: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 14px; border-radius: 6px; cursor: pointer; transition: 0.3s; text-align: left; font-size: 1rem; }
-        button:hover:not(:disabled) { background-color: #30363d; border-color: #8b949e; }
-        
-        /* Cores de Feedback */
-        .correct { background-color: #238636 !important; border-color: #2ea043 !important; color: white !important; font-weight: bold; }
-        .wrong { background-color: #da3633 !important; border-color: #f85149 !important; color: white !important; }
-        
-        #next-btn { margin-top: 1.5rem; background-color: #58a6ff; color: #0d1117; border: none; padding: 12px; display: none; text-align: center; width: 100%; font-weight: bold; border-radius: 6px; cursor: pointer; }
-        #next-btn:hover { background-color: #79c0ff; }
-        #score-container { display: none; }
-        .feedback-text { margin-top: 10px; font-weight: bold; font-size: 1.2rem; }
-    </style>
-</head>
-<body>
-
-<div id="quiz-container">
-    <div id="quiz-content">
-        <h1>QUIZ</h1>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="quiz-container">
+      <div id="quiz-content">
+        <img src="images/logo.png" alt="Logo Quiz Microbio" class="logo" />
         <h1>Hepatites: O Malware do Fígado</h1>
         <div id="question" class="question"></div>
         <div id="options" class="options"></div>
         <div id="feedback" class="feedback-text"></div>
         <button id="next-btn">PRÓXIMA PERGUNTA</button>
-    </div>
-    <div id="score-container">
+      </div>
+      <div id="score-container" style="display: none">
         <h1>Resultado Final</h1>
-        <p id="score-text"></p>
-        <button onclick="location.reload()" style="text-align: center; width: 100%; background-color: #238636; color: white; border: none;">TENTAR NOVAMENTE</button>
+        <p id="score-text" style="font-size: 1.1rem; line-height: 1.6"></p>
+        <button
+          onclick="location.reload()"
+          style="
+            text-align: center;
+            background-color: #238636;
+            color: white;
+            border: none;
+            font-weight: bold;
+          "
+        >
+          REINICIAR SISTEMA
+        </button>
+      </div>
+
+      <footer class="footer">
+        Desenvolvido por <span>@AugustoN9</span> • v1.0
+      </footer>
     </div>
-</div>
 
-<script>
-    const quizData = [
-        {
-            q: "Qual vírus é o único da lista cujo material genético é composto por DNA?",
-            a: ["Hepatite A", "Hepatite B", "Hepatite C", "Hepatite E"],
-            correct: 1 // Hepatite B
-        },
-        {
-            q: "O que caracteriza o fenômeno de 'Quasespécies' na Hepatite C?",
-            a: ["Replicação via DNA", "Dependência do vírus B", "Alta taxa de mutação do RNA", "Transmissão zoonótica"],
-            correct: 2 // Alta taxa de mutação
-        },
-        {
-            q: "O vírus da Hepatite D é considerado defectivo porque:",
-            a: ["Não possui RNA", "Depende do envelope (HBsAg) do vírus B", "Só infecta gestantes", "É autolimitado"],
-            correct: 1 // Depende do B
-        },
-        {
-            q: "Na patogênese, o dano principal ao fígado ocorre devido a:",
-            a: ["Ação direta do vírus", "Resposta imune (Linfócitos T)", "Falta de microbiota", "Excesso de glicose"],
-            correct: 1 // Resposta Imune
-        },
-        {
-            q: "Qual o principal 'arquivo de backup' (DNA circular persistente) do vírus B no núcleo celular?",
-            a: ["RNA mensageiro", "cccDNA", "Proteína VP1", "Carga viral"],
-            correct: 1 // cccDNA
-        }
-    ];
-
-    let currentQ = 0;
-    let score = 0;
-
-    const questionEl = document.getElementById('question');
-    const optionsEl = document.getElementById('options');
-    const nextBtn = document.getElementById('next-btn');
-    const feedbackEl = document.getElementById('feedback');
-    const quizContent = document.getElementById('quiz-content');
-    const scoreContainer = document.getElementById('score-container');
-    const scoreText = document.getElementById('score-text');
-
-    function loadQuestion() {
-        const data = quizData[currentQ];
-        questionEl.innerText = `${currentQ + 1}. ${data.q}`;
-        optionsEl.innerHTML = '';
-        feedbackEl.innerText = '';
-        nextBtn.style.display = 'none';
-        
-        data.a.forEach((opt, index) => {
-            const btn = document.createElement('button');
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(index, btn);
-            optionsEl.appendChild(btn);
-        });
-    }
-
-    function checkAnswer(selected, btn) {
-        const correctIndex = quizData[currentQ].correct;
-        const allButtons = optionsEl.querySelectorAll('button');
-        
-        // Bloqueia todos os botões após o clique
-        allButtons.forEach(b => b.disabled = true);
-
-        if (selected === correctIndex) {
-            btn.classList.add('correct');
-            feedbackEl.innerText = "✅ ACERTOU!";
-            feedbackEl.style.color = "#3fb950";
-            score++;
-        } else {
-            btn.classList.add('wrong');
-            allButtons[correctIndex].classList.add('correct');
-            feedbackEl.innerText = "❌ ERROU!";
-            feedbackEl.style.color = "#f85149";
-        }
-        
-        nextBtn.style.display = 'block';
-    }
-
-    nextBtn.onclick = () => {
-        currentQ++;
-        if (currentQ < quizData.length) {
-            loadQuestion();
-        } else {
-            quizContent.style.display = 'none';
-            scoreContainer.style.display = 'block';
-            scoreText.innerHTML = `Você finalizou o sistema!<br><br><strong>Score: ${score} de ${quizData.length} acertos.</strong>`;
-        }
-    };
-
-    loadQuestion();
-</script>
-
-</body>
+    <script src="js/script.js"></script>
+  </body>
 </html>
