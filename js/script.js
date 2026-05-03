@@ -55,11 +55,39 @@
         currentQ++;
         if (currentQ < quizData.length) {
             loadQuestion();
+       } else {
+    quizContent.style.display = 'none';
+    scoreContainer.style.display = 'block';
+
+    // 1. Calcular aproveitamento
+    const percent = (score / quizData.length) * 100;
+    
+    // 2. Definir número de estrelas (1 a 5)
+    let starsCount = 0;
+    if (percent >= 100) starsCount = 5;
+    else if (percent >= 80) starsCount = 4;
+    else if (percent >= 60) starsCount = 3;
+    else if (percent >= 40) starsCount = 2;
+    else if (percent >= 20) starsCount = 1;
+    else starsCount = 0; // Opcional: 0 estrelas para menos de 20%
+
+    // 3. Gerar os ícones das estrelas
+    const starsContainer = document.getElementById('stars-container');
+    let starsHtml = '';
+    
+    for (let i = 1; i <= 5; i++) {
+        if (i <= starsCount) {
+            starsHtml += '★'; // Estrela preenchida
         } else {
-            quizContent.style.display = 'none';
-            scoreContainer.style.display = 'block';
-            scoreText.innerHTML = `Análise concluída!<br><br><strong>Score: ${score} / ${quizData.length}</strong><br>Obrigado por participar!`;
+            starsHtml += '<span class="star-empty">☆</span>'; // Estrela vazia
         }
+    }
+    
+    starsContainer.innerHTML = starsHtml;
+
+    // 4. Atualizar o texto do score
+    scoreText.innerHTML = `Análise concluída!<br><br><strong>Score: ${score} / ${quizData.length}</strong><br>Obrigado por participar!`;
+}
     };
 
     loadQuestion();

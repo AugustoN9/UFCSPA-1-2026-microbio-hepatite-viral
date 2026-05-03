@@ -24,13 +24,20 @@ body {
 #quiz-container {
   background-color: rgba(22, 27, 34, 0.95);
   backdrop-filter: blur(10px);
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   width: 100%;
   max-width: 450px; /* Limite para não esticar demais no desktop */
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 60px;
+}
+
+#score-container button {
+  margin-top: 2rem;    /* Espaço em relação ao Score/Texto */
+  margin-bottom: 1rem; /* Espaço em relação ao limite inferior do card */
+  padding: 18px;       /* Um pouco mais de altura para o botão */
 }
 
 .logo {
@@ -115,16 +122,26 @@ button:hover:not(:disabled) {
   min-height: 1.2em;
 }
 
+#stars-container {
+  color: #f1c40f; /* Amarelo ouro */
+  text-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+  letter-spacing: 5px;
+}
+
+.star-empty {
+  color: #30363d; /* Cor cinza para estrelas vazias */
+}
+
 .footer {
-  position: fixed;
-  bottom: 10px;
+  position: relative; /* Mudado de fixed para relative para seguir o fluxo do conteúdo */
+  margin-top: 2.5rem; /* Espaçamento generoso no topo (em relação ao card) */
+  margin-bottom: 1.5rem; /* Espaçamento em relação ao fim da página */
   width: 100%;
   text-align: center;
-  margin-left: -2rem;
+  margin-left: 0; /* Removido o valor negativo anterior */
   font-size: 0.85rem;
   color: #8b949e;
   letter-spacing: 0.5px;
-  z-index: 10;
 }
 
 .footer span {
